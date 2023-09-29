@@ -73,7 +73,7 @@ class DInterface(pl.LightningDataModule):
         return module(**args1)
 
     def init_data_module(self, name, **other_args):
-        self.data_module = getattr(importlib.import_module(f'.{name}_dataset', package='data'), f'{name}Dataset')
+        self.data_module = getattr(importlib.import_module(f'.{name}_dataset', package='data'), f'{name}_Dataset')
         return self.data_module
     
     

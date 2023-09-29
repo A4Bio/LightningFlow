@@ -86,7 +86,7 @@ class MInterface(pl.LightningModule):
         self.loss_function = nn.NLLLoss()
 
     def init_model_module(self, name):
-        Model = getattr(importlib.import_module(f'.{name}_model', package=__package__), f"{name}Model")
+        Model = getattr(importlib.import_module(f'.{name}_model', package=__package__), f"{name}_Model")
         return Model
     
     def instancialize_module(self, Model, **other_args):

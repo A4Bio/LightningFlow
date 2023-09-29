@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class CLSModel(nn.Module):
+class CLS_Model(nn.Module):
     def __init__(self):
-        super(CLSModel, self).__init__()
+        super(CLS_Model, self).__init__()
         self.layer = nn.Linear(784, 10)
 
     def forward(self, x):

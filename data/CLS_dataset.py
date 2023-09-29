@@ -3,7 +3,7 @@ from torch.utils.data import Dataset
 
 
 
-class CLSDataset(Dataset):
+class CLS_Dataset(Dataset):
     def __init__(
         self,
         split='train'
