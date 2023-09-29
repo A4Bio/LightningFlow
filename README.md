@@ -11,13 +11,13 @@ root-
 		|-__init__.py
 		|-data_interface.py
 		|-CLS_dataset.py ==> CLS_Dataset
-        |-XXX_dataset.py ==> XXX_Dataset
+                |-XXX_dataset.py ==> XXX_Dataset
 		|-...
 	|-model
 		|-__init__.py
 		|-model_interface.py
 		|-CLS_model.py ==> CLS_Model
-        |-YYY_model.py ==> YYY_Model
+                |-YYY_model.py ==> YYY_Model
 		|-...
 	|-main.py
 ```
