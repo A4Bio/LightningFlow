@@ -25,5 +25,5 @@ root-
 Suggestions:
 - It is essential to maintain consistency between the names of XXX_dataset.py and XXX_Dataset in XXX, as well as YYY_model.py and YYY_Model in YYY. The prefix would be used in the "instancialize()" function of "data_interface.py" and "model_interface.py", respectively.
 - To initiate your own project, it is necessary to rewrite "XXX_dataset.py" and "YYY_model.py" according to your specific requirements. However, please make an effort to keep "data_interface.py" and "model_interface.py" unchanged as much as possible to maintain the stability and compatibility of the existing codebase.
-- I recommand you to use the OneCycle schedular + AdamW optimizer.
+- I recommand you to use the OneCycle scheduler + AdamW optimizer.
 - Please believe me, this framework will greatly enhance your coding efficiency.
