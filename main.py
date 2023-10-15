@@ -102,6 +102,8 @@ if __name__ == "__main__":
     
     gpu_count = torch.cuda.device_count()
     args.steps_per_epoch = int(len(data_module.trainset)/args.batch_size/gpu_count)
+    if len(data_module.trainset) % args.batch_size != 0:
+        args.steps_per_epoch += 1
     print(f"steps_per_epoch {args.steps_per_epoch},  gpu_count {gpu_count}, batch_size{args.batch_size}")
     
     model = MInterface(**vars(args))
@@ -112,7 +114,7 @@ if __name__ == "__main__":
         'max_epochs': args.epoch,  # Maximum number of epochs to train for
         'num_nodes': 1,  # Number of nodes to use for distributed training
         "strategy": 'ddp', # 'ddp', 'deepspeed_stage_2
-        "precision": 'bf16', # "bf16", 16
+        # "precision": 'bf16', # "bf16", 16
         # 'auto_scale_batch_size': 'binsearch',
         'accelerator': 'gpu',  # Use distributed data parallel
         'callbacks': load_callbacks(args),

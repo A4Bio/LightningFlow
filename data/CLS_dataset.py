@@ -26,5 +26,5 @@ class CLS_Dataset(Dataset):
     
     
 if __name__ == '__main__':
-    dataset = CLSDataset()
+    dataset = CLS_Dataset()
     print(dataset[0])
