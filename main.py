@@ -114,7 +114,7 @@ if __name__ == "__main__":
         'max_epochs': args.epoch,  # Maximum number of epochs to train for
         'num_nodes': 1,  # Number of nodes to use for distributed training
         "strategy": 'ddp', # 'ddp', 'deepspeed_stage_2
-        # "precision": 'bf16', # "bf16", 16
+        "precision": 'bf16', # "bf16", 16
         # 'auto_scale_batch_size': 'binsearch',
         'accelerator': 'gpu',  # Use distributed data parallel
         'callbacks': load_callbacks(args),
