@@ -5,7 +5,7 @@ os.environ["WANDB_API_KEY"] = "ddb1831ecbd2bf95c3323502ae17df6e1df44ec0"
 import warnings
 
 warnings.filterwarnings("ignore")
-
+import math
 import argparse
 import shutil
 import pytorch_lightning as pl
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     data_module.setup()
     
     gpu_count = torch.cuda.device_count()
-    args.steps_per_epoch = int(len(data_module.trainset)/args.batch_size/gpu_count)
+    args.steps_per_epoch = math.ceil(len(data_module.trainset)/args.batch_size/gpu_count)
     print(f"steps_per_epoch {args.steps_per_epoch},  gpu_count {gpu_count}, batch_size{args.batch_size}")
     
     model = MInterface(**vars(args))
