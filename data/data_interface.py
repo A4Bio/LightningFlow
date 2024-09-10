@@ -23,21 +23,27 @@ class MyDataLoader(DataLoader):
     def __iter__(self):
         for batch in super().__iter__():
             # 在这里对batch进行处理
-            # ...
-            
             # 提前将变量塞进GPU
             with torch.cuda.stream(self.stream):
                 batch = cuda(batch, device=self.device, non_blocking=True)
                 
             yield batch
 
+def collate_fn(examples):
+    # print(examples)
+    return {
+        'seq': torch.stack([torch.tensor(example['seq']) for example in examples]),
+        'vqid': torch.stack([torch.tensor(example['vqid']) for example in examples]),
+    }
+
 class DInterface(pl.LightningDataModule):
     def __init__(self, num_workers=8,
-                 dataset="CLS",
+                 dataset='PDB',
                  **kwargs):
         super().__init__()
+        self.save_hyperparameters()
         self.num_workers = num_workers
-        self.dataset = dataset # "CLS"
+        self.dataset = dataset
         self.kwargs = kwargs
         self.batch_size = kwargs['batch_size']
         self.data_module = self.init_data_module(dataset)
@@ -54,13 +60,31 @@ class DInterface(pl.LightningDataModule):
             self.testset = self.instancialize_module(module = self.data_module, split='test')
 
     def train_dataloader(self):
-        return self.instancialize_module(MyDataLoader, dataset=self.testset, shuffle=True, prefetch_factor=3, device=self.device)
+        train_loader = DataLoader(
+            self.trainset,
+            batch_size= self.hparams.batch_size,
+            pin_memory=True,
+            shuffle=True,
+            collate_fn=collate_fn)
+        return train_loader
 
     def val_dataloader(self):
-        return self.instancialize_module(MyDataLoader, dataset=self.valset, shuffle=False, device=self.device)
+        valid_loader = DataLoader(
+            self.valset,
+            batch_size= self.hparams.batch_size,
+            pin_memory=True,
+            shuffle=False,
+            collate_fn=collate_fn)
+        return valid_loader
 
     def test_dataloader(self):
-        return self.instancialize_module(MyDataLoader, dataset=self.testset, shuffle=False, device=self.device)
+        test_loader = DataLoader(
+            self.testset,
+            batch_size= self.hparams.batch_size,
+            pin_memory=True,
+            shuffle=False,
+            collate_fn=self.collate_fn)
+        return test_loader
     
     def instancialize_module(self, module, **other_args):
         class_args =  list(inspect.signature(module.__init__).parameters)[1:]
